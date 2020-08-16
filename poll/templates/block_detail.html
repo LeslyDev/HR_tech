@@ -1,0 +1,40 @@
+{% extends 'base_poll.html' %}
+
+{% block title %}
+    Тест
+{% endblock %}
+
+{% block content %}
+    <h1 class="ml-4 mb-2"> {{ current_block }} </h1>
+    {% if current_block.type_block == 'TS' %}
+        <form action="{% url 'finish_test_url' block_id=current_block.id %}" method="post">
+    {% else %}
+        <form action="{% url 'finish_interview_url' block_id=current_block.id %}" method="post">
+    {% endif %}
+        {% csrf_token %}
+        {% for questions_in_block in all_questions %}
+        <div>
+            <span class="ml-4">{{ forloop.counter }}. {{ questions_in_block.question.title }}
+                (Колиечство баллов за вопрос: {{ questions_in_block.weight }}) </span> <br>
+            {% for answer in questions_in_block.question.answer_in_question.all %}
+                {% if current_block.type_block == 'TS' %}
+                    <div class="custom-control custom-radio ml-5">
+                        <input class="custom-control-input" type="radio" name="answer{{questions_in_block.id}}" value="{{answer.id}}" id="answer{{answer.id}}">
+                        <label class="custom-control-label" for="answer{{answer.id}}">
+                            {{ answer.title }}
+                        </label>
+                    </div>
+                {% else %}
+                    <div class="form-check ml-5">
+                        <input class="form-check-input" type="checkbox" name="answer{{questions_in_block.id}}" value="{{answer.id}}" id="answer{{answer.id}}1">
+                        <label class="form-check-label" for="answer{{answer.id}}">
+                            {{ answer.title }}
+                        </label>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button class="btn btn-primary ml-4 mt-2" type="submit">Отправить ответы</button>
+    </form>
+{% endblock %}

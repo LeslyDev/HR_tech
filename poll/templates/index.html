@@ -1,0 +1,16 @@
+{% extends 'base_poll.html' %}
+
+{% block title %}
+    MyCompany
+{% endblock %}
+
+{% block content %}
+    <h3 class="d-flex align-items-center justify-content-center mt-5">Добро пожаловать на сайт внутренних опросов организации MyCompany.</h3> <br>
+    {% if not request.user.is_authenticated %}
+        <h5 class="d-flex align-items-center justify-content-center">Проходить тесты и опросы могут только сотрудники, поэтому запросите логин и пароль для вашего аккаунта у администратора сайта.</h5>
+        <form method="post" class="d-flex align-items-center justify-content-center mt-4" action="{% url 'login' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Авторизоваться</button>
+        </form>
+    {% endif %}
+{% endblock %}

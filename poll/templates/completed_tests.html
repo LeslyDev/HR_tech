@@ -1,0 +1,26 @@
+{% extends 'base_poll.html' %}
+
+{% block title %}
+    Список тестов
+{% endblock %}
+
+{% block content %}
+    <h1 class="ml-5">Завершенные тесты</h1>
+    <div class="row">
+        {% for block in block_list %}
+            <div class="col-sm-6">
+                <div class="card mb-4 ml-2 mr-2">
+                    <div class="card-header bg-info">
+                        {% if block.type_block == 'TS' %} Тест: {% else %} Опрос: {% endif %} {{ block.title }}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Описание: {{ block.description }}</h5>
+                        {% if block.type_block == 'TS' %}
+                            <h5 class="card-title">Ваш результат за этот тест: {{ block.res }}</h5>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base_poll.html' %}
+
+{% block title %}
+    Список тестов
+{% endblock %}
+
+{% block content %}
+    <h1 class="ml-5">Непройденные тесты</h1>
+    <div class="row">
+        {% for block in block_list %}
+            <div class="col-sm-6">
+                <div class="card mb-4 ml-2 mr-2">
+                    <div class="card-header bg-info">
+                        {% if block.type_block == 'TS' %} Тест: {% else %} Опрос: {% endif %} {{ block.title }}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Описание: {{ block.description }}</h5>
+                        <h5 class="card-title">Количество вопросов: {{ block.question_count }}</h5>
+                        <h5 class="card-title">Дата начала {{ block.date_begin }}</h5>
+                        {% if block.date_end %}
+                            <h5 class="card-title">Дата окончания {{ block.date_end }}</h5>
+                        {% else %}
+                            <br>
+                        {% endif %}
+                        {% if block.available %}
+                            <a href="{% url 'block_detail_url' block_id=block.pk %}" class="btn btn-primary">Начать выполнение</a>
+                        {% else %}
+                        <h4>Тест еще не начался или уже закончился</h4>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

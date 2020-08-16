@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            Library
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <a class="navbar-brand" href="{% url 'index' %}">MyCompany</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                {% if request.user.is_authenticated %}
+                    <a class="nav-item nav-link" href="{% url 'list_of_blocks_url' %}">Новые тесты</a>
+                    <a class="nav-item nav-link" href="{% url 'completed_list_url' %}">Завершенные тесты</a>
+                    <a class="nav-item nav-link" href="{% url 'rating_url' %}">Рейтинги</a>
+                {% endif %}
+                {% if request.user.is_authenticated and request.user.is_staff %}
+                    <a class="nav-item nav-link" href="/admin/">Admin</a>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                    <div class="mt-2 ml-5">
+                        <span> Доброй пожаловать {{ request.user }} </span>
+                        <a href="{% url 'logout' %}">Выйти</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    {% block content %}
+        There is no any content
+    {% endblock %}
+</body>
+</html>
