@@ -60,12 +60,20 @@ def blocks_view(request):
                 block_list.append(i)
         template = loader.get_template('list_of_blocks.html')
         for i in block_list:
-            if i.date_begin > timezone.now() or i.date_end < timezone.now():
-                i.available = False
-                i.save()
-            else:
-                i.available = True
-                i.save()
+            try:
+                if i.date_begin > timezone.now() or i.date_end < timezone.now():
+                    i.available = False
+                    i.save()
+                else:
+                    i.available = True
+                    i.save()
+            except TypeError:
+                if i.date_begin > timezone.now():
+                    i.available = False
+                    i.save()
+                else:
+                    i.available = True
+                    i.save()
         context_dict = {
             "block_list": block_list
         }
